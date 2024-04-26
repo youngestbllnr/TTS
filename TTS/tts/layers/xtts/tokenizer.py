@@ -516,13 +516,18 @@ def _remove_dots(m):
 
 def _expand_decimal_point(m, lang="en"):
     amount = m.group(1).replace(",", ".")
-    return num2words(float(amount), lang=lang if lang != "cs" else "cz")
+    return num2words(
+        float(amount), lang="en" if lang == "tl" else lang if lang != "cs" else "cz"
+    )
 
 
 def _expand_currency(m, lang="en", currency="USD"):
     amount = float((re.sub(r"[^\d.]", "", m.group(0).replace(",", "."))))
     full_amount = num2words(
-        amount, to="currency", currency=currency, lang=lang if lang != "cs" else "cz"
+        amount,
+        to="currency",
+        currency=currency,
+        lang="en" if lang == "tl" else lang if lang != "cs" else "cz",
     )
 
     and_equivalents = {
@@ -540,7 +545,7 @@ def _expand_currency(m, lang="en", currency="USD"):
         "tr": ", ",
         "hu": ", ",
         "ko": ", ",
-        "tl": " at ",
+        # TODO: Add Tagalog
     }
 
     if amount.is_integer():
