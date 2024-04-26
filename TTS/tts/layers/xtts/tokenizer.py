@@ -561,7 +561,9 @@ def _expand_ordinal(m, lang="en"):
 
 
 def _expand_number(m, lang="en"):
-    return num2words(int(m.group(0)), lang=lang if lang != "cs" else "cz")
+    return num2words(
+        int(m.group(0)), lang="en" if lang == "tl" else lang if lang != "cs" else "cz"
+    )
 
 
 def expand_numbers_multilingual(text, lang="en"):
