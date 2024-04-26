@@ -557,16 +557,19 @@ def _expand_currency(m, lang="en", currency="USD"):
 
 
 def _expand_ordinal(m, lang="en"):
+    # TODO: Add support for Tagalog - see num2words
     return num2words(int(m.group(1)), ordinal=True, lang=lang if lang != "cs" else "cz")
 
 
 def _expand_number(m, lang="en"):
+    # TODO: Add support for Tagalog - see num2words
     return num2words(
         int(m.group(0)), lang="en" if lang == "tl" else lang if lang != "cs" else "cz"
     )
 
 
 def expand_numbers_multilingual(text, lang="en"):
+    # TODO: Add support for Tagalog - see num2words
     if lang == "zh":
         text = zh_num2words()(text)
     else:
@@ -713,6 +716,7 @@ class VoiceBpeTokenizer:
             "tr",
             "zh",
             "ko",
+            "tl",
         }:
             txt = multilingual_cleaners(txt, lang)
             if lang == "zh":
