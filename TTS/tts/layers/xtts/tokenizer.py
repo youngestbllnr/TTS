@@ -492,7 +492,7 @@ _currency_re = {
     "USD": re.compile(r"((\$[0-9\.\,]*[0-9]+)|([0-9\.\,]*[0-9]+\$))"),
     "GBP": re.compile(r"((£[0-9\.\,]*[0-9]+)|([0-9\.\,]*[0-9]+£))"),
     "EUR": re.compile(r"(([0-9\.\,]*[0-9]+€)|((€[0-9\.\,]*[0-9]+)))"),
-    "PHP": re.compile(r"((₱[0-9\.\,]*[0-9]+)|([0-9\.\,]*[0-9]+PHP))"),
+    # TODO: Add support for PHP
 }
 
 _comma_number_re = re.compile(r"\b\d{1,3}(,\d{3})*(\.\d+)?\b")
@@ -545,7 +545,7 @@ def _expand_currency(m, lang="en", currency="USD"):
         "tr": ", ",
         "hu": ", ",
         "ko": ", ",
-        # TODO: Add Tagalog
+        "tl": " at ",
     }
 
     if amount.is_integer():
@@ -587,9 +587,7 @@ def expand_numbers_multilingual(text, lang="en"):
             text = re.sub(
                 _currency_re["EUR"], lambda m: _expand_currency(m, lang, "EUR"), text
             )
-            text = re.sub(
-                _currency_re["PHP"], lambda m: _expand_currency(m, lang, "PHP"), text
-            )
+            # TODO: Add support for PHP
         except:
             pass
         if lang != "tr":
@@ -888,12 +886,11 @@ def test_expand_numbers_multilingual():
         ("50 명의 병사가 있었다.", "오십 명의 병사가 있었다.", "ko"),
         ("이것은 1 번째 테스트입니다", "이것은 첫 번째 테스트입니다", "ko"),
         # Tagalog
-        ("Sa 12.5 segundo.", "Sa labing dalawa't kalahating segundo.", "tl"),
+        ("Sa 12.5 segundo.", "Sa labing dalawa at kalahating segundo.", "tl"),
         ("May 50 sundalo.", "May limampung sundalo.", "tl"),
         ("Ito ang 1st pagsusulit.", "Ito ang unang pagsusulit.", "tl"),
         ("Iyon ay $20 sir.", "Iyon ay dalawampung dolyar, ser.", "tl"),
         ("Iyon ay 20€ sir.", "Iyon ay dalawampung euro, ser.", "tl"),
-        ("Iyon ay ₱20 sir.", "Iyon ay dalawampung piso, ser.", "tl"),
         (
             "Iyon ay 20.15€ ser.",
             "Iyon ay dalawampung euro at labing limang sentimos, ser.",
