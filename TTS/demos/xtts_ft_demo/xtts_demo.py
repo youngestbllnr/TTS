@@ -406,6 +406,7 @@ if __name__ == "__main__":
                             "hu",
                             "ko",
                             "ja",
+                            "tl",
                         ],
                     )
                     tts_text = gr.Textbox(
