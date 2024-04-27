@@ -558,7 +558,11 @@ def _expand_currency(m, lang="en", currency="USD"):
 
 def _expand_ordinal(m, lang="en"):
     # TODO: Add support for Tagalog - see num2words
-    return num2words(int(m.group(1)), ordinal=True, lang=lang if lang != "cs" else "cz")
+    return num2words(
+        int(m.group(1)),
+        ordinal=True,
+        lang="en" if lang == "tl" else lang if lang != "cs" else "cz",
+    )
 
 
 def _expand_number(m, lang="en"):
